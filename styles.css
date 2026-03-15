@@ -1,12 +1,14 @@
-:root {
-  --field-gap: 2rem;
+@import "tailwindcss";
 
-  --cell-size: 3rem;
+:root {
+  --field-gap: 1rem;
+
+  --cell-size: 1.5rem;
   --cell-border-size: max(calc(var(--cell-size) / 16), 1.5px);
   --cell-background-color: oklch(20% 0 0);
   --cell-border-color: oklch(30% 0 0);
 
-  --hand-color: oklch(94.75% 0.1916 119.15);
+  --hand-color: #ffde59;
 }
 
 * {
@@ -16,16 +18,10 @@
 }
 
 body {
-  background-color: oklch(0% 0 0);
+  background-color: black;
 }
 
-#app {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
+
 
 .clock {
   display: flex;
@@ -79,28 +75,38 @@ body {
 
 @media (max-width: 1440px) {
   :root {
-    --cell-size: 2rem;
+    --cell-size: 1.25rem;
+    --field-gap: 0.75rem;
   }
+  
+
 }
 
 @media (max-width: 1024px) {
-  :root {
-    --field-gap: 1rem;
-
-    --cell-size: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
   :root {
     --field-gap: 0.5rem;
 
     --cell-size: 1rem;
   }
+  
+
+}
+
+@media (max-width: 768px) {
+  :root {
+    --field-gap: 0.375rem;
+
+    --cell-size: 0.75rem;
+  }
+  
+
 }
 
 @media (max-width: 480px) {
   :root {
-    --cell-size: 0.75rem;
+    --field-gap: 0.25rem;
+    --cell-size: 0.5rem;
   }
+  
+
 }

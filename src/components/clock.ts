@@ -7,7 +7,7 @@ export class Clock {
   static create() {
     const children = [Field.create("hours"), Field.create("minutes"), Field.create("seconds")];
 
-    return El.create({ type: "div", classes: "clock", children });
+    return El.create({ type: "div", classes: "clock scale-[1.0] sm:scale-[1.1] md:scale-[1.2] lg:scale-[1.25] xl:scale-[1.3] origin-center", children });
   }
 
   static tick(time: Time) {
