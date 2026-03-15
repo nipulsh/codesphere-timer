@@ -6,7 +6,14 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    open: true
+    open: true,
+    proxy: {
+      "/api": "http://localhost:3000",
+      "/socket.io": {
+        target: "ws://localhost:3000",
+        ws: true
+      }
+    }
   },
   build: {
     outDir: "dist",

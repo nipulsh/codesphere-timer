@@ -1,7 +1,8 @@
+import { io, Socket } from "socket.io-client";
 import { Clock } from "$src/components/clock";
 import { El } from "$src/components/element";
 
-import { countdown, equal, getCountdownEndTime } from "$src/utilities/time";
+import { countdown, equal } from "$src/utilities/time";
 
 import type { Time } from "$src/types/time";
 
@@ -9,17 +10,21 @@ export class App {
   static time: Time = { hours: "00", minutes: "00", seconds: "00" };
 
   static endTime: number = 0;
+  static isPaused: boolean = false;
+  static pauseTimeRemaining: number = 0;
+  static socket: Socket | null = null;
+  static intervalId: number | null = null;
 
   static init() {
-    const startDate =
-      (import.meta as unknown as { env: Record<string, string> }).env
-        .VITE_STARTING_DATE ?? "2026-03-15";
-    const startTime =
-      (import.meta as unknown as { env: Record<string, string> }).env
-        .VITE_STARTING_TIME ?? "00:00";
+    this.socket = io();
 
-    this.endTime = getCountdownEndTime(startDate, startTime);
-    this.time = countdown(this.endTime);
+    this.socket.on('timerState', (state) => {
+      this.endTime = state.endTime;
+      this.isPaused = state.isPaused;
+      this.pauseTimeRemaining = state.pauseTimeRemaining;
+      
+      this.interval(); // Trigger immediate visual update
+    });
 
     // Add Header Container
     const header = El.create({
@@ -46,11 +51,18 @@ export class App {
     El.append("app", header);
     El.append("app", Clock.create());
 
+
+
     this.tick();
   }
 
   static interval() {
-    const time = countdown(this.endTime);
+    let targetTime = this.endTime;
+    if (this.isPaused) {
+      targetTime = Date.now() + this.pauseTimeRemaining;
+    }
+
+    const time = countdown(targetTime);
 
     if (!equal(time, this.time)) {
       this.time = Clock.tick(time);
@@ -60,6 +72,7 @@ export class App {
   static tick() {
     Clock.tick(this.time);
 
-    setInterval(() => this.interval(), 100);
+    if (this.intervalId !== null) clearInterval(this.intervalId);
+    this.intervalId = window.setInterval(() => this.interval(), 100);
   }
 }

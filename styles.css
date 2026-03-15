@@ -94,19 +94,14 @@ body {
 
 @media (max-width: 768px) {
   :root {
-    --field-gap: 0.375rem;
-
-    --cell-size: 0.75rem;
+    --field-gap: 1.5vw;
+    --cell-size: 2.2vw;
   }
-  
-
 }
 
 @media (max-width: 480px) {
   :root {
-    --field-gap: 0.25rem;
-    --cell-size: 0.5rem;
+    --field-gap: 1vw;
+    --cell-size: 3.2vw;
   }
-  
-
 }

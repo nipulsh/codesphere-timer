@@ -13,7 +13,9 @@ export class Cell {
   }
 
   static tick(cell: HTMLElement, rotation: number[]) {
-    El.children(cell)
-      .map((hand, index) => Hand.tick(hand, rotation[index]));
+    const children = El.children(cell);
+    Hand.tick(children[0], rotation[0]);
+    Hand.tick(children[1], rotation[1]);
+    Dot.tick(children[2], rotation);
   }
 }
